@@ -4,6 +4,7 @@ import { Product } from 'src/products/domain/product.entity';
 import { ProductBuilder } from 'src/products/domain/product.builder';
 import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
 import { BranchOfficeBuilder } from 'src/branch-offices/domain/branch-office.builder';
+import { v4 } from 'uuid';
 
 export class StockBuilder {
   readonly #stock: Stock;
@@ -15,9 +16,11 @@ export class StockBuilder {
     this.#stock = stock
       ? plainToInstance(Stock, { ...stock })
       : new Stock(
+          v4(),
           '',
           '',
           branchOffice,
+          '',
           product,
           0,
           now,
@@ -34,8 +37,18 @@ export class StockBuilder {
     return this;
   }
 
+  productId(productId: string): StockBuilder {
+    this.#stock.productId = productId;
+    return this;
+  }
+
   product(product: Product): StockBuilder {
     this.#stock.product = product;
+    return this;
+  }
+
+  branchOfficeId(branchOfficeId: string): StockBuilder {
+    this.#stock.branchOfficeId = branchOfficeId;
     return this;
   }
 
@@ -83,7 +96,9 @@ export class StockBuilder {
     return new Stock(
       this.#stock.id,
       this.#stock.name,
+      this.#stock.branchOfficeId,
       this.#stock.branchOffice,
+      this.#stock.productId,
       this.#stock.product,
       this.#stock.amount,
       this.#stock.updatedAt,

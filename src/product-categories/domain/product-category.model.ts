@@ -2,7 +2,6 @@ import {
   Column,
   Model,
   Table,
-  DataType,
   PrimaryKey,
   AllowNull,
   HasMany,

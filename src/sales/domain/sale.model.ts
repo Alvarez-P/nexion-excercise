@@ -39,10 +39,10 @@ export class SaleModel extends Model<Sale> {
 
   @ForeignKey(() => SaleOrderModel)
   @Column
-  orderId: string;
+  saleOrderId: string;
 
   @BelongsTo(() => SaleOrderModel)
-  order: SaleOrder;
+  saleOrder: SaleOrder;
 
   @ForeignKey(() => ProductModel)
   @Column

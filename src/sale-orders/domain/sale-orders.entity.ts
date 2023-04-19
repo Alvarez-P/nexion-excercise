@@ -1,11 +1,13 @@
 import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
-import { BaseEntity } from 'src/core/domain/base.entity';
+import { IBaseEntity } from 'src/core/domain/base.entity';
 import { Employee } from 'src/employees/domain/employee.entity';
 
-export class SaleOrder implements BaseEntity {
+export class SaleOrder implements IBaseEntity {
   constructor(
     public id: string,
+    public branchOfficeId: string,
     public branchOffice: BranchOffice,
+    public sellerId: string,
     public seller: Employee,
     public total: number,
     public updatedAt: Date,

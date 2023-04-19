@@ -1,6 +1,6 @@
-import { BaseEntity } from 'src/core/domain/base.entity';
+import { IBaseEntity } from 'src/core/domain/base.entity';
 
-export class BranchOffice implements BaseEntity {
+export class BranchOffice implements IBaseEntity {
   constructor(
     public id: string,
     public name: string,

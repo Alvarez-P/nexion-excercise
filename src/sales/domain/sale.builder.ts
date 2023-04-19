@@ -4,6 +4,7 @@ import { Product } from 'src/products/domain/product.entity';
 import { SaleOrderBuilder } from 'src/sale-orders/domain/sale-orders.builder';
 import { SaleOrder } from 'src/sale-orders/domain/sale-orders.entity';
 import { ProductBuilder } from 'src/products/domain/product.builder';
+import { v4 } from 'uuid';
 
 export class SaleBuilder {
   readonly #sale: Sale;
@@ -14,11 +15,30 @@ export class SaleBuilder {
     const order = new SaleOrderBuilder().build();
     this.#sale = sale
       ? plainToInstance(Sale, { ...sale })
-      : new Sale('', product, order, 0, 0, now, now, null, '', '', null);
+      : new Sale(
+          v4(),
+          '',
+          product,
+          '',
+          order,
+          0,
+          0,
+          now,
+          now,
+          null,
+          '',
+          '',
+          null,
+        );
   }
 
   id(id: string): SaleBuilder {
     this.#sale.id = id;
+    return this;
+  }
+
+  productId(productId: string): SaleBuilder {
+    this.#sale.productId = productId;
     return this;
   }
 
@@ -27,8 +47,13 @@ export class SaleBuilder {
     return this;
   }
 
-  order(order: SaleOrder): SaleBuilder {
-    this.#sale.order = order;
+  saleOrderId(saleOrderId: string): SaleBuilder {
+    this.#sale.saleOrderId = saleOrderId;
+    return this;
+  }
+
+  saleOrder(saleOrder: SaleOrder): SaleBuilder {
+    this.#sale.saleOrder = saleOrder;
     return this;
   }
 
@@ -75,8 +100,10 @@ export class SaleBuilder {
   build(): Sale {
     return new Sale(
       this.#sale.id,
+      this.#sale.productId,
       this.#sale.product,
-      this.#sale.order,
+      this.#sale.saleOrderId,
+      this.#sale.saleOrder,
       this.#sale.amount,
       this.#sale.total,
       this.#sale.updatedAt,

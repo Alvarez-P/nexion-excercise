@@ -4,6 +4,7 @@ import { BranchOfficeBuilder } from 'src/branch-offices/domain/branch-office.bui
 import { EmployeeBuilder } from 'src/employees/domain/employee.builder';
 import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
 import { Employee } from 'src/employees/domain/employee.entity';
+import { v4 } from 'uuid';
 
 export class SaleOrderBuilder {
   readonly #order: SaleOrder;
@@ -14,7 +15,20 @@ export class SaleOrderBuilder {
     const seller = new EmployeeBuilder().build();
     this.#order = order
       ? plainToInstance(SaleOrder, { ...order })
-      : new SaleOrder('', branch, seller, 0, now, now, null, '', '', null);
+      : new SaleOrder(
+          v4(),
+          '',
+          branch,
+          '',
+          seller,
+          0,
+          now,
+          now,
+          null,
+          '',
+          '',
+          null,
+        );
   }
 
   id(id: string): SaleOrderBuilder {
@@ -22,8 +36,18 @@ export class SaleOrderBuilder {
     return this;
   }
 
+  branchOfficeId(branchOfficeId: string): SaleOrderBuilder {
+    this.#order.branchOfficeId = branchOfficeId;
+    return this;
+  }
+
   branchOffice(branchOffice: BranchOffice): SaleOrderBuilder {
     this.#order.branchOffice = branchOffice;
+    return this;
+  }
+
+  sellerId(sellerId: string): SaleOrderBuilder {
+    this.#order.sellerId = sellerId;
     return this;
   }
 
@@ -70,7 +94,9 @@ export class SaleOrderBuilder {
   build(): SaleOrder {
     return new SaleOrder(
       this.#order.id,
+      this.#order.branchOfficeId,
       this.#order.branchOffice,
+      this.#order.sellerId,
       this.#order.seller,
       this.#order.total,
       this.#order.updatedAt,

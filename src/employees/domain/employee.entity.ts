@@ -1,12 +1,15 @@
-import { BaseEntity } from 'src/core/domain/base.entity';
+import { EmployeeRole } from 'src/core/constants';
+import { IBaseEntity } from 'src/core/domain/base.entity';
 
-export class Employee implements BaseEntity {
+export class Employee implements IBaseEntity {
   constructor(
     public id: string,
+    public userName: string,
+    public password: string,
     public firstName: string,
     public lastName: string,
     public birthday: Date,
-    public role: 'user' | 'admin',
+    public role: EmployeeRole,
     public updatedAt: Date,
     public createdAt: Date,
     public deletedAt: Date | null,

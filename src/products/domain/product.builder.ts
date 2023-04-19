@@ -2,6 +2,7 @@ import { plainToInstance } from 'class-transformer';
 import { Product } from './product.entity';
 import { ProductCategory } from 'src/product-categories/domain/product-category.entity';
 import { ProductCategoryBuilder } from 'src/product-categories/domain/product-category.builder';
+import { v4 } from 'uuid';
 
 export class ProductBuilder {
   readonly #product: Product;
@@ -11,7 +12,7 @@ export class ProductBuilder {
     const category = new ProductCategoryBuilder().build();
     this.#product = product
       ? plainToInstance(Product, { ...product })
-      : new Product('', '', category, 0, 0, now, now, null, '', '', null);
+      : new Product(v4(), '', '', category, 0, 0, now, now, null, '', '', null);
   }
 
   id(id: string): ProductBuilder {
@@ -21,6 +22,11 @@ export class ProductBuilder {
 
   name(name: string): ProductBuilder {
     this.#product.name = name;
+    return this;
+  }
+
+  categoryId(categoryId: string): ProductBuilder {
+    this.#product.categoryId = categoryId;
     return this;
   }
 
@@ -73,6 +79,7 @@ export class ProductBuilder {
     return new Product(
       this.#product.id,
       this.#product.name,
+      this.#product.categoryId,
       this.#product.category,
       this.#product.cost,
       this.#product.price,

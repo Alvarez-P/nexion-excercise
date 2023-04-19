@@ -1,5 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { Employee } from './employee.entity';
+import { v4 } from 'uuid';
+import { EmployeeRole } from 'src/core/constants';
 
 export class EmployeeBuilder {
   readonly #employee: Employee;
@@ -8,11 +10,35 @@ export class EmployeeBuilder {
     const now = new Date();
     this.#employee = employee
       ? plainToInstance(Employee, { ...employee })
-      : new Employee('', '', '', now, 'user', now, now, null, '', '', null);
+      : new Employee(
+          v4(),
+          '',
+          '',
+          '',
+          '',
+          now,
+          'user',
+          now,
+          now,
+          null,
+          '',
+          '',
+          null,
+        );
   }
 
   id(id: string): EmployeeBuilder {
     this.#employee.id = id;
+    return this;
+  }
+
+  userName(userName: string): EmployeeBuilder {
+    this.#employee.userName = userName;
+    return this;
+  }
+
+  password(password: string): EmployeeBuilder {
+    this.#employee.password = password;
     return this;
   }
 
@@ -31,7 +57,7 @@ export class EmployeeBuilder {
     return this;
   }
 
-  role(role: 'user' | 'admin'): EmployeeBuilder {
+  role(role: EmployeeRole): EmployeeBuilder {
     this.#employee.role = role;
     return this;
   }
@@ -69,6 +95,8 @@ export class EmployeeBuilder {
   build(): Employee {
     return new Employee(
       this.#employee.id,
+      this.#employee.userName,
+      this.#employee.password,
       this.#employee.firstName,
       this.#employee.lastName,
       this.#employee.birthday,

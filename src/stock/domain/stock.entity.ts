@@ -5,7 +5,9 @@ export class Stock {
   constructor(
     public id: string,
     public name: string,
+    public branchOfficeId: string,
     public branchOffice: BranchOffice,
+    public productId: string,
     public product: Product,
     public amount: number,
     public updatedAt: Date,

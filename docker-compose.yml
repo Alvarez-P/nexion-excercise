@@ -6,12 +6,11 @@ services:
       context: .
       target: development
       dockerfile: ./dockerfile
-    command: npm run start:dev
+    command: sh -c "npm run seed && npm run start:dev"
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
     restart: unless-stopped
     depends_on:
       - db

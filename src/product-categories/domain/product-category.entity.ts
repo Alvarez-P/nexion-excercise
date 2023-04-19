@@ -1,6 +1,6 @@
-import { BaseEntity } from 'src/core/domain/base.entity';
+import { IBaseEntity } from 'src/core/domain/base.entity';
 
-export class ProductCategory implements BaseEntity {
+export class ProductCategory implements IBaseEntity {
   constructor(
     public id: string,
     public name: string,

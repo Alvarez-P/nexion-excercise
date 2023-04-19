@@ -1,5 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { BranchOffice } from './branch-office.entity';
+import { v4 } from 'uuid';
 
 export class BranchOfficeBuilder {
   readonly #branchOffice: BranchOffice;
@@ -8,7 +9,7 @@ export class BranchOfficeBuilder {
     const now = new Date();
     this.#branchOffice = branchOffice
       ? plainToInstance(BranchOffice, { ...branchOffice })
-      : new BranchOffice('', '', '', now, now, null, '', '', null);
+      : new BranchOffice(v4(), '', '', now, now, null, '', '', null);
   }
 
   id(id: string): BranchOfficeBuilder {

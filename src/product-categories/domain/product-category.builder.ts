@@ -1,5 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { ProductCategory } from './product-category.entity';
+import { v4 } from 'uuid';
 
 export class ProductCategoryBuilder {
   readonly #productCategory: ProductCategory;
@@ -8,7 +9,7 @@ export class ProductCategoryBuilder {
     const now = new Date();
     this.#productCategory = productCategory
       ? plainToInstance(ProductCategory, { ...productCategory })
-      : new ProductCategory('', '', null, now, now, null, '', '', null);
+      : new ProductCategory(v4(), '', null, now, now, null, '', '', null);
   }
 
   id(id: string): ProductCategoryBuilder {
