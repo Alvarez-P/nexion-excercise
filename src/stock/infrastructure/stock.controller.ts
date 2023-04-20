@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { StockService } from '../application/stock.service';
-import { CreateStockDto } from '../dto/input/create-stock.dto';
-import { UpdateStockDto } from '../dto/input/update-stock.dto';
+import { CreateStockDto } from '../domain/dto/input/create-stock.dto';
+import { UpdateStockDto } from '../domain/dto/input/update-stock.dto';
 
 @Controller('stock')
 export class StockController {

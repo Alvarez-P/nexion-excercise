@@ -7,6 +7,9 @@ import {
   AllowNull,
   BelongsTo,
   ForeignKey,
+  DeletedAt,
+  UpdatedAt,
+  CreatedAt,
 } from 'sequelize-typescript';
 import { SaleOrder } from './sale-orders.entity';
 import { Employee } from 'src/employees/domain/employee.entity';
@@ -15,7 +18,7 @@ import { EmployeeModel } from 'src/employees/domain/employee.model';
 import { BranchOfficeModel } from 'src/branch-offices/domain/branch-office.model';
 import { SALE_ORDER_MODEL_NAME } from '../constants';
 
-@Table({ modelName: SALE_ORDER_MODEL_NAME, timestamps: true })
+@Table({ modelName: SALE_ORDER_MODEL_NAME, paranoid: true })
 export class SaleOrderModel extends Model<SaleOrder> {
   @PrimaryKey
   @Column
@@ -37,6 +40,15 @@ export class SaleOrderModel extends Model<SaleOrder> {
   @AllowNull
   @Column
   deletedBy: string | null;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
+
+  @DeletedAt
+  deletedAt: Date;
 
   @ForeignKey(() => BranchOfficeModel)
   @Column

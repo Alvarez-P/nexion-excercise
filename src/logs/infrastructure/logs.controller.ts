@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { LogsService } from '../application/logs.service';
-import { CreateLogDto } from '../dto/create-log.dto';
-import { UpdateLogDto } from '../dto/update-log.dto';
+import { CreateLogDto } from '../domain/dto/create-log.dto';
+import { UpdateLogDto } from '../domain/dto/update-log.dto';
 
 @Controller('logs')
 export class LogsController {

@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ProductCategoriesService } from '../application/product-categories.service';
-import { CreateProductCategoryDto } from '../dto/input/create-product-category.dto';
-import { UpdateProductCategoryDto } from '../dto/input/update-product-category.dto';
+import { CreateProductCategoryDto } from '../domain/dto/input/create-product-category.dto';
+import { UpdateProductCategoryDto } from '../domain/dto/input/update-product-category.dto';
 
 @Controller('product-categories')
 export class ProductCategoriesController {

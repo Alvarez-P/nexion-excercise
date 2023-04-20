@@ -7,13 +7,16 @@ import {
   AllowNull,
   BelongsTo,
   ForeignKey,
+  DeletedAt,
+  UpdatedAt,
+  CreatedAt,
 } from 'sequelize-typescript';
 import { Product } from './product.entity';
 import { ProductCategory } from 'src/product-categories/domain/product-category.entity';
 import { ProductCategoryModel } from 'src/product-categories/domain/product-category.model';
 import { PRODUCT_MODEL_NAME } from '../constants';
 
-@Table({ modelName: PRODUCT_MODEL_NAME, timestamps: true })
+@Table({ modelName: PRODUCT_MODEL_NAME, paranoid: true })
 export class ProductModel extends Model<Product> {
   @PrimaryKey
   @Column
@@ -37,6 +40,15 @@ export class ProductModel extends Model<Product> {
   @AllowNull
   @Column
   deletedBy: string | null;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
+
+  @DeletedAt
+  deletedAt: Date;
 
   @ForeignKey(() => ProductCategoryModel)
   @Column

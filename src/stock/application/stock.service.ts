@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStockDto } from '../dto/input/create-stock.dto';
-import { UpdateStockDto } from '../dto/input/update-stock.dto';
+import { CreateStockDto } from '../domain/dto/input/create-stock.dto';
+import { UpdateStockDto } from '../domain/dto/input/update-stock.dto';
 
 @Injectable()
 export class StockService {

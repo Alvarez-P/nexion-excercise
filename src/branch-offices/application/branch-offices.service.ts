@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBranchOfficeDto } from '../dto/input/create-branch-office.dto';
-import { UpdateBranchOfficeDto } from '../dto/input/update-branch-office.dto';
+import { CreateBranchOfficeDto } from '../domain/dto/input/create-branch-office.dto';
+import { UpdateBranchOfficeDto } from '../domain/dto/input/update-branch-office.dto';
 
 @Injectable()
 export class BranchOfficesService {

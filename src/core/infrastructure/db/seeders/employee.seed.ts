@@ -24,13 +24,12 @@ export class SeedEmployee implements Seeder {
       .lastName('Solutions')
       .password(hashedPassword)
       .role('admin')
-      .deletedAt(null)
       .build();
     const records: Employee[] = [admin];
     return this.employeeRepository.bulkCreate(records);
   }
 
-  async drop(): Promise<any> {
-    return this.employeeRepository.destroy({});
+  async drop() {
+    return this.employeeRepository.destroy({ force: true });
   }
 }

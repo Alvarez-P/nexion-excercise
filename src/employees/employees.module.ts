@@ -5,10 +5,16 @@ import { EmployeeRepository } from './infrastructure/employees.repository';
 import { CoreModule } from 'src/core/core.module';
 import { EncryptionService } from 'src/core/application/encryption.service';
 import { ConfigModule } from '@nestjs/config';
+import { QueryBuilder } from 'src/core/application/query-builder.service';
 
 @Module({
   imports: [CoreModule, ConfigModule],
   controllers: [EmployeesController],
-  providers: [EmployeesService, EmployeeRepository, EncryptionService],
+  providers: [
+    EmployeesService,
+    EmployeeRepository,
+    EncryptionService,
+    QueryBuilder,
+  ],
 })
 export class EmployeesModule {}

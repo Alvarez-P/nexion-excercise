@@ -5,6 +5,9 @@ import {
   PrimaryKey,
   AllowNull,
   HasMany,
+  DeletedAt,
+  UpdatedAt,
+  CreatedAt,
 } from 'sequelize-typescript';
 import { BranchOffice } from './branch-office.entity';
 import { StockModel } from 'src/stock/domain/stock.model';
@@ -13,7 +16,7 @@ import { SaleOrderModel } from 'src/sale-orders/domain/sale-orders.model';
 import { SaleOrder } from 'src/sale-orders/domain/sale-orders.entity';
 import { BRANCH_OFFICE_MODEL_NAME } from '../constants';
 
-@Table({ modelName: BRANCH_OFFICE_MODEL_NAME, timestamps: true })
+@Table({ modelName: BRANCH_OFFICE_MODEL_NAME, paranoid: true })
 export class BranchOfficeModel extends Model<BranchOffice> {
   @PrimaryKey
   @Column
@@ -34,6 +37,15 @@ export class BranchOfficeModel extends Model<BranchOffice> {
   @AllowNull
   @Column
   deletedBy: string | null;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
+
+  @DeletedAt
+  deletedAt: Date;
 
   @HasMany(() => StockModel)
   stocks: Stock[];

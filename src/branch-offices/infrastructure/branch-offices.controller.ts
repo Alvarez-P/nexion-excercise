@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { BranchOfficesService } from '../application/branch-offices.service';
-import { CreateBranchOfficeDto } from '../dto/input/create-branch-office.dto';
-import { UpdateBranchOfficeDto } from '../dto/input/update-branch-office.dto';
+import { CreateBranchOfficeDto } from '../domain/dto/input/create-branch-office.dto';
+import { UpdateBranchOfficeDto } from '../domain/dto/input/update-branch-office.dto';
 
 @Controller('branch-offices')
 export class BranchOfficesController {

@@ -7,6 +7,9 @@ import {
   AllowNull,
   HasMany,
   Unique,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { SaleOrderModel } from 'src/sale-orders/domain/sale-orders.model';
 import { SaleOrder } from 'src/sale-orders/domain/sale-orders.entity';
@@ -14,7 +17,7 @@ import { EMPLOYEE_MODEL_NAME } from '../constants';
 import { EmployeeRole } from 'src/core/constants';
 import { Employee } from './employee.entity';
 
-@Table({ modelName: EMPLOYEE_MODEL_NAME, timestamps: true })
+@Table({ modelName: EMPLOYEE_MODEL_NAME, paranoid: true })
 export class EmployeeModel extends Model<Employee> {
   @PrimaryKey
   @Column
@@ -48,6 +51,15 @@ export class EmployeeModel extends Model<Employee> {
   @AllowNull
   @Column
   deletedBy: string | null;
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
+
+  @DeletedAt
+  deletedAt: Date;
 
   @HasMany(() => SaleOrderModel)
   saleOrders: SaleOrder[];

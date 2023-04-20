@@ -7,6 +7,8 @@ export class CreateEmployeeDto {
   @ApiProperty({
     type: String,
     description: 'username',
+    uniqueItems: true,
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
