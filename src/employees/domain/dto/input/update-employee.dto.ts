@@ -3,10 +3,10 @@ import { Type } from 'class-transformer';
 import { IsDate, IsIn, IsOptional, IsString, Length } from 'class-validator';
 import { EmployeeRole } from 'src/core/constants';
 
-export class CreateTaskDto {
+export class UpdateEmployeeDto {
   @ApiPropertyOptional({
     type: String,
-    description: 'username',
+    description: 'userName',
   })
   @IsOptional()
   @IsString()
