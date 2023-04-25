@@ -12,6 +12,9 @@ import { QueryBuilder } from 'src/core/application/query-builder.service';
 import { EmployeeModel } from '../domain/employee.model';
 import { Pagination } from 'src/core/types/pagination.interface';
 import { UpdateEmployeeDto } from '../domain/dto/input/update-employee.dto';
+import { TransactionManager } from 'src/core/types/transaction-manager.interface';
+import { DB_MANAGER } from 'src/core/constants';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class EmployeesService {
@@ -20,12 +23,13 @@ export class EmployeesService {
     private employeeRepository: TEmployeeRepository,
     private encryptionService: EncryptionService,
     private queryBuilder: QueryBuilder<EmployeeFilters, EmployeeModel>,
+    @Inject(DB_MANAGER)
+    private transactionManager: TransactionManager,
   ) {}
 
   async create(employeeDto: CreateEmployeeDto, createdBy: string) {
     const userNameIsInUse = await this.employeeRepository.findOne({
       where: { userName: employeeDto.userName },
-      paranoid: false,
     });
     if (userNameIsInUse)
       throw new BadRequestException('Username is already in use');
@@ -41,10 +45,10 @@ export class EmployeesService {
       .updatedBy(createdBy)
       .build();
     const saved = await this.employeeRepository.create(employee);
-    return plainToInstance(BaseEmployeeDto, saved.dataValues);
+    return plainToInstance(BaseEmployeeDto, saved.toJSON());
   }
 
-  async find(queryDto: QueryEmployeesDto) {
+  async findAll(queryDto: QueryEmployeesDto) {
     const query = this.queryBuilder.build(queryDto);
     const results = await this.employeeRepository.findAndCountAll(query);
     const response: Pagination<BaseEmployeeDto> = {
@@ -57,9 +61,9 @@ export class EmployeesService {
     return response;
   }
 
-  async findById(userId: string) {
+  async findOne(id: string) {
     const result = await this.employeeRepository.findOne({
-      where: { id: userId },
+      where: { id },
       raw: true,
       nest: true,
     });
@@ -70,24 +74,31 @@ export class EmployeesService {
     return response;
   }
 
-  update(userId: string, employeeDto: UpdateEmployeeDto, updatedBy: string) {
+  async update(id: string, employeeDto: UpdateEmployeeDto, updatedBy: string) {
+    if (employeeDto.userName) {
+      const userNameIsInUse = await this.employeeRepository.findOne({
+        where: { userName: employeeDto.userName, id: { [Op.not]: id } },
+      });
+      if (userNameIsInUse)
+        throw new BadRequestException('Username is already in use');
+    }
     if (employeeDto.password)
       employeeDto.password = this.encryptionService.encrypt(
         employeeDto.password,
       );
     return this.employeeRepository.update(
       { ...employeeDto, updatedBy },
-      { where: { id: userId } },
+      { where: { id } },
     );
   }
 
-  async remove(userId: string, deletedBy: string) {
-    await this.employeeRepository.update(
-      { deletedBy },
-      { where: { id: userId } },
-    );
-    return this.employeeRepository.destroy({
-      where: { id: userId },
+  remove(id: string, deletedBy: string) {
+    return this.transactionManager.transaction(async (transaction) => {
+      await this.employeeRepository.update(
+        { deletedBy },
+        { where: { id }, transaction },
+      );
+      return this.employeeRepository.destroy({ where: { id }, transaction });
     });
   }
 }

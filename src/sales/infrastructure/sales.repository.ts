@@ -5,3 +5,5 @@ export const SaleRepository = {
   provide: SALE_REPOSITORY,
   useValue: SaleModel,
 };
+
+export type TSaleRepository = typeof SaleModel;

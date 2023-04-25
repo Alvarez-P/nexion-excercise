@@ -44,40 +44,40 @@ export class EmployeesController {
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
-  public find(@Body() queryDto: QueryEmployeesDto) {
-    return this.employeeService.find(queryDto);
+  public findAll(@Body() queryDto: QueryEmployeesDto) {
+    return this.employeeService.findAll(queryDto);
   }
 
-  @Get(':userId')
+  @Get(':id')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
-  public getById(@Param('userId', new ParseUUIDPipe()) userId: string) {
-    return this.employeeService.findById(userId);
+  public findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.employeeService.findOne(id);
   }
 
-  @Put(':userId')
+  @Put(':id')
   @Auth('admin')
   @CommonDoc()
   @ApiNoContentResponse({ description: 'No Content' })
   @HttpCode(204)
   public update(
-    @Param('userId', new ParseUUIDPipe()) userId: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() employeeDto: UpdateEmployeeDto,
     @Request() req: { user: Employee },
   ) {
-    return this.employeeService.update(userId, employeeDto, req.user.id);
+    return this.employeeService.update(id, employeeDto, req.user.id);
   }
 
-  @Delete(':userId')
+  @Delete(':id')
   @Auth('admin')
   @CommonDoc()
   @ApiNoContentResponse({ description: 'No Content' })
   @HttpCode(204)
   public remove(
-    @Param('userId', new ParseUUIDPipe()) userId: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Request() req: { user: Employee },
   ) {
-    return this.employeeService.remove(userId, req.user.id);
+    return this.employeeService.remove(id, req.user.id);
   }
 }

@@ -1,4 +1,22 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateBranchOfficeDto } from './create-branch-office.dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString, Length } from 'class-validator';
 
-export class UpdateBranchOfficeDto extends PartialType(CreateBranchOfficeDto) {}
+export class UpdateBranchOfficeDto {
+  @ApiPropertyOptional({
+    type: String,
+    description: 'address',
+    uniqueItems: true,
+  })
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    description: 'name',
+  })
+  @IsOptional()
+  @IsString()
+  @Length(3)
+  name?: string;
+}

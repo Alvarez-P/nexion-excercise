@@ -13,7 +13,6 @@ export class UpdateEmployeeDto {
   userName?: string;
 
   @ApiPropertyOptional({
-    required: true,
     type: String,
     description: 'password',
   })
@@ -23,7 +22,6 @@ export class UpdateEmployeeDto {
   password?: string;
 
   @ApiPropertyOptional({
-    required: true,
     type: String,
     description: 'firstName',
   })
@@ -33,7 +31,6 @@ export class UpdateEmployeeDto {
   firstName?: string;
 
   @ApiPropertyOptional({
-    required: true,
     type: String,
     description: 'lastName',
   })
@@ -43,7 +40,6 @@ export class UpdateEmployeeDto {
   lastName?: string;
 
   @ApiPropertyOptional({
-    required: true,
     type: String,
     description: 'lastName',
     examples: ['user', 'admin'],

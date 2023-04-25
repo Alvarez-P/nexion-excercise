@@ -26,6 +26,14 @@ export class QueryBuilder<T, M extends Model> {
         where[filter] = { [Op.substring]: filters[filter] };
       else where[filter] = { [Op.eq]: filters[filter] };
     }
-    return { where, order, offset, limit, raw: true, nest: true };
+    return {
+      where,
+      order,
+      offset,
+      limit,
+      raw: true,
+      nest: true,
+      paranoid: false,
+    };
   }
 }

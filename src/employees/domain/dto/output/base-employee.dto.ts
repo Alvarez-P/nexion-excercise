@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { EmployeeRole } from 'src/core/constants';
 
 export class BaseEmployeeDto {
-  id: string | undefined;
+  id: string;
   userName: string;
   firstName: string;
   lastName: string;
@@ -12,11 +12,9 @@ export class BaseEmployeeDto {
   createdAt: string;
   updatedBy: string;
   createdBy: string;
+  deletedAt: string | null;
+  deletedBy: string | null;
 
   @Exclude()
   password: string;
-  @Exclude()
-  deletedAt: string | null;
-  @Exclude()
-  deletedBy: string | null;
 }

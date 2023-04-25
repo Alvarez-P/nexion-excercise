@@ -5,3 +5,5 @@ export const BranchOfficeRepository = {
   provide: BRANCH_OFFICE_REPOSITORY,
   useValue: BranchOfficeModel,
 };
+
+export type TBranchOfficeRepository = typeof BranchOfficeModel;

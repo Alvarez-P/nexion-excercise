@@ -17,6 +17,7 @@ import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
 import { EmployeeModel } from 'src/employees/domain/employee.model';
 import { BranchOfficeModel } from 'src/branch-offices/domain/branch-office.model';
 import { SALE_ORDER_MODEL_NAME } from '../constants';
+import { SaleOrderStatus } from 'src/core/constants';
 
 @Table({ modelName: SALE_ORDER_MODEL_NAME, paranoid: true })
 export class SaleOrderModel extends Model<SaleOrder> {
@@ -27,9 +28,8 @@ export class SaleOrderModel extends Model<SaleOrder> {
   @Column(DataType.FLOAT)
   total: number;
 
-  @AllowNull
-  @Column
-  description: string | null;
+  @Column({ type: DataType.STRING, values: ['pending', 'cancelled', 'paid'] })
+  status: SaleOrderStatus;
 
   @Column
   updatedBy: string;

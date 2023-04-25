@@ -5,6 +5,7 @@ import { EmployeeBuilder } from 'src/employees/domain/employee.builder';
 import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { v4 } from 'uuid';
+import { SaleOrderStatus } from 'src/core/constants';
 
 export class SaleOrderBuilder {
   readonly #order: SaleOrder;
@@ -22,6 +23,7 @@ export class SaleOrderBuilder {
           '',
           seller,
           0,
+          'pending',
           now,
           now,
           null,
@@ -58,6 +60,11 @@ export class SaleOrderBuilder {
 
   total(total: number): SaleOrderBuilder {
     this.#order.total = total;
+    return this;
+  }
+
+  status(status: SaleOrderStatus): SaleOrderBuilder {
+    this.#order.status = status;
     return this;
   }
 
@@ -99,6 +106,7 @@ export class SaleOrderBuilder {
       this.#order.sellerId,
       this.#order.seller,
       this.#order.total,
+      this.#order.status,
       this.#order.updatedAt,
       this.#order.createdAt,
       this.#order.deletedAt,

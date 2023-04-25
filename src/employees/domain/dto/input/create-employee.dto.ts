@@ -56,6 +56,7 @@ export class CreateEmployeeDto {
   role!: EmployeeRole;
 
   @ApiProperty({
+    required: true,
     format: 'date',
     type: Date,
     description: 'birthday',

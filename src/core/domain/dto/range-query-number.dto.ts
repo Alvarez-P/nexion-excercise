@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional } from 'class-validator';
 import { RangeQueryNumber } from 'src/core/types/query.interface';
 
-export class RangeQueryDateDto implements RangeQueryNumber {
+export class RangeQueryNumberDto implements RangeQueryNumber {
   @ApiPropertyOptional({
     type: Number,
     description: 'from',

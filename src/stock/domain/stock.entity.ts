@@ -4,7 +4,6 @@ import { Product } from 'src/products/domain/product.entity';
 export class Stock {
   constructor(
     public id: string,
-    public name: string,
     public branchOfficeId: string,
     public branchOffice: BranchOffice,
     public productId: string,

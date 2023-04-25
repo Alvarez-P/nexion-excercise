@@ -1,4 +1,5 @@
 import { BranchOffice } from 'src/branch-offices/domain/branch-office.entity';
+import { SaleOrderStatus } from 'src/core/constants';
 import { IBaseEntity } from 'src/core/domain/base.entity';
 import { Employee } from 'src/employees/domain/employee.entity';
 
@@ -10,6 +11,7 @@ export class SaleOrder implements IBaseEntity {
     public sellerId: string,
     public seller: Employee,
     public total: number,
+    public status: SaleOrderStatus,
     public updatedAt: Date,
     public createdAt: Date,
     public deletedAt: Date | null,

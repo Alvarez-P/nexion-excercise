@@ -5,3 +5,5 @@ export const ProductCategoryRepository = {
   provide: PRODUCT_CATEGORY_REPOSITORY,
   useValue: ProductCategoryModel,
 };
+
+export type TProductCategoryRepository = typeof ProductCategoryModel;

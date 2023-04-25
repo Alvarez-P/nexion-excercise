@@ -18,7 +18,6 @@ export class StockBuilder {
       : new Stock(
           v4(),
           '',
-          '',
           branchOffice,
           '',
           product,
@@ -95,7 +94,6 @@ export class StockBuilder {
   build(): Stock {
     return new Stock(
       this.#stock.id,
-      this.#stock.name,
       this.#stock.branchOfficeId,
       this.#stock.branchOffice,
       this.#stock.productId,

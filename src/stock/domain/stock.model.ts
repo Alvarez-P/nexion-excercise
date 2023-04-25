@@ -24,9 +24,6 @@ export class StockModel extends Model<Stock> {
   @Column
   id: string;
 
-  @Column
-  name: string;
-
   @Column(DataType.INTEGER)
   amount: number;
 

@@ -5,3 +5,5 @@ export const StockRepository = {
   provide: STOCK_REPOSITORY,
   useValue: StockModel,
 };
+
+export type TStockRepository = typeof StockModel;

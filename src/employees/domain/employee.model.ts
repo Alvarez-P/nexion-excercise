@@ -6,7 +6,6 @@ import {
   PrimaryKey,
   AllowNull,
   HasMany,
-  Unique,
   CreatedAt,
   UpdatedAt,
   DeletedAt,
@@ -23,7 +22,6 @@ export class EmployeeModel extends Model<Employee> {
   @Column
   id: string;
 
-  @Unique
   @Column
   userName: string;
 
@@ -36,7 +34,7 @@ export class EmployeeModel extends Model<Employee> {
   @Column
   lastName: string;
 
-  @Column(DataType.DATE)
+  @Column(DataType.DATEONLY)
   birthday: Date;
 
   @Column({ type: DataType.STRING, values: ['user', 'admin'] })
