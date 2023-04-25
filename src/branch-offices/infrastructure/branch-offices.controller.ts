@@ -9,6 +9,7 @@ import {
   Put,
   ParseUUIDPipe,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { BranchOfficesService } from '../application/branch-offices.service';
 import { CreateBranchOfficeDto } from '../domain/dto/input/create-branch-office.dto';
@@ -23,11 +24,21 @@ import {
 } from '@nestjs/swagger';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QueryBranchOfficeDto } from '../domain/dto/input/query-branch-office.dto';
+import { QueryBranchSaleOrdersDto } from '../domain/dto/input/query-sale-orders.dto';
+import { SaleOrdersService } from 'src/sale-orders/application/sale-orders.service';
+import { QueryBranchStockDto } from '../domain/dto/input/query-stock.dto';
+import { StockService } from 'src/stock/application/stock.service';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('branch-offices')
 @Controller('branch-offices')
+@UseInterceptors(LoggingInterceptor)
 export class BranchOfficesController {
-  constructor(private readonly branchOfficesService: BranchOfficesService) {}
+  constructor(
+    private readonly branchOfficesService: BranchOfficesService,
+    private readonly ordersService: SaleOrdersService,
+    private readonly stockService: StockService,
+  ) {}
 
   @Post()
   @Auth('admin')
@@ -54,6 +65,28 @@ export class BranchOfficesController {
   @ApiOkResponse({ description: 'Success' })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.branchOfficesService.findOne(id);
+  }
+
+  @Get(':id/sale-orders')
+  @Auth('admin', 'user')
+  @CommonDoc()
+  @ApiOkResponse({ description: 'Success' })
+  findSaleOrders(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() queryDto: QueryBranchSaleOrdersDto,
+  ) {
+    return this.ordersService.findAll({ ...queryDto, branchOfficeId: id });
+  }
+
+  @Get(':id/stock')
+  @Auth('admin', 'user')
+  @CommonDoc()
+  @ApiOkResponse({ description: 'Success' })
+  findStock(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() queryDto: QueryBranchStockDto,
+  ) {
+    return this.stockService.findAll({ ...queryDto, branchOfficeId: id });
   }
 
   @Put(':id')

@@ -9,10 +9,10 @@ import { Type } from 'class-transformer';
 import { Query } from 'src/core/types/query.interface';
 import { RangeQueryNumberDto } from 'src/core/domain/dto/range-query-number.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { StockFilters } from '../../stock.filters';
+import { StockFilters } from 'src/stock/domain/stock.filters';
 import { QueryPaginationDto } from 'src/core/domain/dto/pagination.dto';
 
-export class QueryStockDto
+export class QueryBranchStockDto
   extends QueryPaginationDto<StockFilters>
   implements Query<StockFilters>
 {
@@ -20,6 +20,7 @@ export class QueryStockDto
     type: String,
     description: 'productId',
     format: 'uuid',
+    example: 'bc68bdba-8ec4-4551-bcb3-e0407f1851fd	',
   })
   @IsOptional()
   @IsUUID()
@@ -27,20 +28,8 @@ export class QueryStockDto
 
   @ApiPropertyOptional({
     type: String,
-    description: 'branchOfficeId',
-    format: 'uuid',
-  })
-  @IsOptional()
-  @IsUUID()
-  readonly branchOfficeId?: string;
-
-  @ApiPropertyOptional({
-    type: RangeQueryNumberDto,
     description: 'amount',
-    example: {
-      from: 0,
-      to: 20,
-    },
+    format: 'range',
   })
   @IsOptional()
   @ValidateNested()
@@ -50,7 +39,7 @@ export class QueryStockDto
   @ApiPropertyOptional({
     type: String,
     description: 'orderBy',
-    example: 'createdAt',
+    example: 'id',
   })
   @IsOptional()
   @IsIn([

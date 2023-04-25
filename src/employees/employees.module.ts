@@ -6,6 +6,7 @@ import { CoreModule } from 'src/core/core.module';
 import { EncryptionService } from 'src/core/application/encryption.service';
 import { ConfigModule } from '@nestjs/config';
 import { QueryBuilder } from 'src/core/application/query-builder.service';
+import { LogRepository } from 'src/logs/infrastructure/logs.repository';
 
 @Module({
   imports: [CoreModule, ConfigModule],
@@ -15,6 +16,7 @@ import { QueryBuilder } from 'src/core/application/query-builder.service';
     EmployeeRepository,
     EncryptionService,
     QueryBuilder,
+    LogRepository,
   ],
 })
 export class EmployeesModule {}

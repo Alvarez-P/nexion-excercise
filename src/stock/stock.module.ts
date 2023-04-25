@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { QueryBuilder } from 'src/core/application/query-builder.service';
 import { ProductRepository } from 'src/products/infrastructure/products.repository';
 import { BranchOfficeRepository } from 'src/branch-offices/infrastructure/branch-offices.repository';
+import { LogRepository } from 'src/logs/infrastructure/logs.repository';
 
 @Module({
   imports: [CoreModule, ConfigModule],
@@ -17,6 +18,7 @@ import { BranchOfficeRepository } from 'src/branch-offices/infrastructure/branch
     QueryBuilder,
     ProductRepository,
     BranchOfficeRepository,
+    LogRepository,
   ],
 })
 export class StockModule {}

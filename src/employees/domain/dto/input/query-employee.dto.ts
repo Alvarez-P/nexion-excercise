@@ -1,18 +1,16 @@
-import {
-  IsInt,
-  IsOptional,
-  IsString,
-  IsIn,
-  ValidateNested,
-} from 'class-validator';
+import { IsOptional, IsString, IsIn, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Query } from 'src/core/types/query.interface';
 import { RangeQueryDateDto } from 'src/core/domain/dto/range-query-date.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { EmployeeFilters } from '../../employee.filters';
 import { EmployeeRole } from 'src/core/constants';
+import { QueryPaginationDto } from 'src/core/domain/dto/pagination.dto';
 
-export class QueryEmployeesDto implements Query<EmployeeFilters> {
+export class QueryEmployeesDto
+  extends QueryPaginationDto<EmployeeFilters>
+  implements Query<EmployeeFilters>
+{
   @ApiPropertyOptional({
     type: String,
     description: 'userName',
@@ -41,27 +39,12 @@ export class QueryEmployeesDto implements Query<EmployeeFilters> {
   readonly lastName?: string;
 
   @ApiPropertyOptional({
-    type: String,
-    description: 'createdBy',
-    format: 'uuid',
-  })
-  @IsOptional()
-  @IsString()
-  readonly createdBy?: string;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'updatedBy',
-    format: 'uuid',
-  })
-  @IsOptional()
-  @IsString()
-  readonly updatedBy?: string;
-
-  @ApiPropertyOptional({
-    type: String,
+    type: RangeQueryDateDto,
     description: 'birthday',
-    format: 'range',
+    example: {
+      from: new Date(),
+      to: new Date(),
+    },
   })
   @IsOptional()
   @ValidateNested()
@@ -71,51 +54,11 @@ export class QueryEmployeesDto implements Query<EmployeeFilters> {
   @ApiPropertyOptional({
     type: String,
     description: 'role',
-    examples: ['user', 'admin'],
+    example: 'user',
   })
   @IsOptional()
   @IsString()
   readonly role?: EmployeeRole;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'createdAt',
-    format: 'range',
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RangeQueryDateDto)
-  readonly createdAt?: RangeQueryDateDto;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'updatedAt',
-    format: 'range',
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RangeQueryDateDto)
-  readonly updatedAt?: RangeQueryDateDto;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'offset',
-    example: 0,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  readonly offset?: number;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'limit',
-    example: 20,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  readonly limit?: number;
 
   @ApiPropertyOptional({
     type: String,
@@ -137,13 +80,4 @@ export class QueryEmployeesDto implements Query<EmployeeFilters> {
   ])
   @IsString()
   readonly orderBy?: keyof EmployeeFilters;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'sort',
-    examples: ['asc', 'desc'],
-  })
-  @IsOptional()
-  @IsIn(['asc', 'desc'])
-  readonly sort?: 'asc' | 'desc';
 }

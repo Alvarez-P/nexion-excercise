@@ -5,3 +5,5 @@ export const LogRepository = {
   provide: LOG_REPOSITORY,
   useValue: LogModel,
 };
+
+export type TLogRepository = typeof LogModel;

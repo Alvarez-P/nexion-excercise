@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Put,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductCategoriesService } from '../application/product-categories.service';
 import { CreateProductCategoryDto } from '../domain/dto/input/create-product-category.dto';
@@ -23,9 +24,11 @@ import {
 } from '@nestjs/swagger';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QueryProductCategoriesDto } from '../domain/dto/input/query-product-category.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('product-categories')
 @Controller('product-categories')
+@UseInterceptors(LoggingInterceptor)
 export class ProductCategoriesController {
   constructor(private readonly pCategoriesService: ProductCategoriesService) {}
 

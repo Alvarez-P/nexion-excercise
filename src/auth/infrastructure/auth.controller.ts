@@ -1,16 +1,35 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  Post,
+  Request,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { AuthService } from '../application/auth.service';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { LocalAuthGuard } from './guards/local.guard';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
+import { RequestSignInDto } from '../domain/dto/input/signin.dto';
 
 @ApiTags('auth')
 @Controller('auth')
+@UseInterceptors(LoggingInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
+  @ApiBody({ type: () => RequestSignInDto })
+  @ApiOkResponse({ description: 'Success' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized Request' })
+  @HttpCode(200)
   async signin(@Request() req: { user: Employee }) {
     return this.authService.signin(req.user);
   }

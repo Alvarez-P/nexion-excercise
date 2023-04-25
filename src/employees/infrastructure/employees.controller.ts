@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Request,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -23,9 +24,11 @@ import { EmployeesService } from '../application/employees.service';
 import { QueryEmployeesDto } from '../domain/dto/input/query-employee.dto';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { UpdateEmployeeDto } from '../domain/dto/input/update-employee.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('employees')
 @Controller('employees')
+@UseInterceptors(LoggingInterceptor)
 export class EmployeesController {
   constructor(private readonly employeeService: EmployeesService) {}
 

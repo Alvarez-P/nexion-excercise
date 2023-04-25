@@ -5,6 +5,7 @@ import { ProductCategoryRepository } from './infrastructure/product-categories.r
 import { ConfigModule } from '@nestjs/config';
 import { CoreModule } from 'src/core/core.module';
 import { QueryBuilder } from 'src/core/application/query-builder.service';
+import { LogRepository } from 'src/logs/infrastructure/logs.repository';
 
 @Module({
   imports: [CoreModule, ConfigModule],
@@ -13,6 +14,7 @@ import { QueryBuilder } from 'src/core/application/query-builder.service';
     ProductCategoriesService,
     ProductCategoryRepository,
     QueryBuilder,
+    LogRepository,
   ],
 })
 export class ProductCategoriesModule {}

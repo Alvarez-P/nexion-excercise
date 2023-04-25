@@ -1,42 +1,53 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
   Delete,
+  Body,
+  ParseUUIDPipe,
+  HttpCode,
+  Request,
+  UseInterceptors,
 } from '@nestjs/common';
 import { LogsService } from '../application/logs.service';
-import { CreateLogDto } from '../domain/dto/create-log.dto';
-import { UpdateLogDto } from '../domain/dto/update-log.dto';
+import { QueryLogsDto } from '../domain/dto/input/query-logs.dto';
+import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
+import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
+import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Employee } from 'src/employees/domain/employee.entity';
+import { LoggingInterceptor } from './interceptors/log.interceptor';
 
+@ApiTags('logs')
 @Controller('logs')
+@UseInterceptors(LoggingInterceptor)
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
-  @Post()
-  create(@Body() createLogDto: CreateLogDto) {
-    return this.logsService.create(createLogDto);
-  }
-
   @Get()
-  findAll() {
-    return this.logsService.findAll();
+  @Auth('admin')
+  @CommonDoc()
+  @ApiOkResponse({ description: 'Success' })
+  findAll(@Body() queryDto: QueryLogsDto) {
+    return this.logsService.findAll(queryDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.logsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLogDto: UpdateLogDto) {
-    return this.logsService.update(+id, updateLogDto);
+  @Auth('admin')
+  @CommonDoc()
+  @ApiOkResponse({ description: 'Success' })
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.logsService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.logsService.remove(+id);
+  @Auth('admin')
+  @CommonDoc()
+  @ApiNoContentResponse({ description: 'No Content' })
+  @HttpCode(204)
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: { user: Employee },
+  ) {
+    return this.logsService.remove(id, req.user.id);
   }
 }

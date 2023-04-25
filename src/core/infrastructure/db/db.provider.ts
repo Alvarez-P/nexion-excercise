@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { BranchOfficeModel } from 'src/branch-offices/domain/branch-office.model';
 import { DB_MANAGER } from 'src/core/constants';
 import { EmployeeModel } from 'src/employees/domain/employee.model';
+import { LogModel } from 'src/logs/domain/logs.model';
 import { ProductCategoryModel } from 'src/product-categories/domain/product-category.model';
 import { ProductModel } from 'src/products/domain/product.model';
 import { SaleOrderModel } from 'src/sale-orders/domain/sale-orders.model';
@@ -20,6 +21,7 @@ export const DbProvider: Provider = {
       username: configService.get('DB_USER'),
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_NAME'),
+      logging: false,
     });
     sequelize.addModels([
       BranchOfficeModel,
@@ -29,6 +31,7 @@ export const DbProvider: Provider = {
       SaleOrderModel,
       SaleModel,
       StockModel,
+      LogModel,
     ]);
     await sequelize.sync();
     return sequelize;

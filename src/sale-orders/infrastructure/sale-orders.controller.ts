@@ -10,6 +10,7 @@ import {
   Put,
   HttpCode,
   Patch,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SaleOrdersService } from '../application/sale-orders.service';
 import { CreateSaleOrderDto } from '../domain/dto/input/create-sale-order.dto';
@@ -24,14 +25,16 @@ import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QuerySaleOrdersDto } from '../domain/dto/input/query-sale-order.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('sale-orders')
 @Controller('sale-orders')
+@UseInterceptors(LoggingInterceptor)
 export class SaleOrdersController {
   constructor(private readonly ordersService: SaleOrdersService) {}
 
   @Post()
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiCreatedResponse({ description: 'Created' })
   create(
@@ -42,7 +45,7 @@ export class SaleOrdersController {
   }
 
   @Get()
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
   findAll(@Body() queryDto: QuerySaleOrdersDto) {
@@ -50,7 +53,7 @@ export class SaleOrdersController {
   }
 
   @Get(':id')
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -71,7 +74,7 @@ export class SaleOrdersController {
   }
 
   @Patch(':id/cancel')
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiNoContentResponse({ description: 'No Content' })
   @HttpCode(204)
@@ -83,7 +86,7 @@ export class SaleOrdersController {
   }
 
   @Patch(':id/pay')
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiNoContentResponse({ description: 'No Content' })
   pay(

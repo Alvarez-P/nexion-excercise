@@ -6,6 +6,7 @@ import { QueryBuilder } from 'src/core/application/query-builder.service';
 import { ConfigModule } from '@nestjs/config';
 import { CoreModule } from 'src/core/core.module';
 import { ProductCategoryRepository } from 'src/product-categories/infrastructure/product-categories.repository';
+import { LogRepository } from 'src/logs/infrastructure/logs.repository';
 
 @Module({
   imports: [CoreModule, ConfigModule],
@@ -14,6 +15,7 @@ import { ProductCategoryRepository } from 'src/product-categories/infrastructure
     ProductsService,
     ProductRepository,
     QueryBuilder,
+    LogRepository,
     ProductCategoryRepository,
   ],
 })

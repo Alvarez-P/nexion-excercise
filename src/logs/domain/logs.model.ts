@@ -49,7 +49,7 @@ export class LogModel extends Model<Log> {
   request_query: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT('long'))
   response_body: string;
 
   @Column

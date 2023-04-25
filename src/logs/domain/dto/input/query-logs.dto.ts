@@ -9,57 +9,68 @@ import { Type } from 'class-transformer';
 import { Query } from 'src/core/types/query.interface';
 import { RangeQueryNumberDto } from 'src/core/domain/dto/range-query-number.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ProductFilters } from '../../product.filters';
+import { LogFilters } from '../../logs.filters';
 import { QueryPaginationDto } from 'src/core/domain/dto/pagination.dto';
 
-export class QueryProductsDto
-  extends QueryPaginationDto<ProductFilters>
-  implements Query<ProductFilters>
+export class QueryLogsDto
+  extends QueryPaginationDto<LogFilters>
+  implements Query<LogFilters>
 {
   @ApiPropertyOptional({
     type: String,
-    description: 'name',
-    example: 'drink',
+    description: 'request_action',
+    example: 'POST',
   })
   @IsString()
   @IsOptional()
-  readonly name?: string;
+  readonly request_action?: string;
 
   @ApiPropertyOptional({
     type: String,
-    description: 'categoryId',
+    description: 'request_path',
+    example: 'POST',
+  })
+  @IsString()
+  @IsOptional()
+  readonly request_path?: string;
+
+  @ApiPropertyOptional({
+    type: String,
+    description: 'response_code',
+    example: 200,
+  })
+  @IsString()
+  @IsOptional()
+  readonly response_code?: number;
+
+  @ApiPropertyOptional({
+    type: String,
+    description: 'employeeId',
     format: 'uuid',
     example: 'bc68bdba-8ec4-4551-bcb3-e0407f1851fd	',
   })
   @IsOptional()
   @IsUUID()
-  readonly categoryId?: string;
+  readonly employeeId?: string;
 
   @ApiPropertyOptional({
-    type: RangeQueryNumberDto,
-    description: 'cost',
-    example: {
-      from: 0,
-      to: 20,
-    },
+    type: String,
+    description: 'elapsed_time',
+    format: 'range',
   })
   @IsOptional()
   @ValidateNested()
   @Type(() => RangeQueryNumberDto)
-  readonly cost?: RangeQueryNumberDto;
+  readonly elapsed_time?: RangeQueryNumberDto;
 
   @ApiPropertyOptional({
-    type: RangeQueryNumberDto,
-    description: 'cost',
-    example: {
-      from: 0,
-      to: 20,
-    },
+    type: String,
+    description: 'ip_address',
+    format: 'uuid',
   })
   @IsOptional()
-  @ValidateNested()
-  @Type(() => RangeQueryNumberDto)
-  readonly price?: RangeQueryNumberDto;
+  @IsString()
+  readonly ip_address?: string;
 
   @ApiPropertyOptional({
     type: String,
@@ -69,15 +80,16 @@ export class QueryProductsDto
   @IsOptional()
   @IsIn([
     'id',
-    'name',
-    'categoryId',
-    'cost',
-    'price',
+    'elapsed_time',
+    'ip_address',
+    'employeeId',
+    'request_action',
+    'response_code',
     'createdAt',
     'updatedAt',
     'updatedBy',
     'createdBy',
   ])
   @IsString()
-  readonly orderBy?: keyof ProductFilters;
+  readonly orderBy?: keyof LogFilters;
 }

@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Put,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { StockService } from '../application/stock.service';
 import { CreateStockDto } from '../domain/dto/input/create-stock.dto';
@@ -23,9 +24,11 @@ import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QueryStockDto } from '../domain/dto/input/query-stock.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('stock')
 @Controller('stock')
+@UseInterceptors(LoggingInterceptor)
 export class StockController {
   constructor(private readonly stockService: StockService) {}
 

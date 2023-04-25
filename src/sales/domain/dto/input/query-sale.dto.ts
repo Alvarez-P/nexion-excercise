@@ -1,5 +1,4 @@
 import {
-  IsInt,
   IsOptional,
   IsString,
   IsIn,
@@ -10,10 +9,13 @@ import { Type } from 'class-transformer';
 import { Query } from 'src/core/types/query.interface';
 import { RangeQueryNumberDto } from 'src/core/domain/dto/range-query-number.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { RangeQueryDateDto } from 'src/core/domain/dto/range-query-date.dto';
 import { SaleFilters } from '../../sale.filters';
+import { QueryPaginationDto } from 'src/core/domain/dto/pagination.dto';
 
-export class QuerySalesDto implements Query<SaleFilters> {
+export class QuerySalesDto
+  extends QueryPaginationDto<SaleFilters>
+  implements Query<SaleFilters>
+{
   @ApiPropertyOptional({
     type: String,
     description: 'productId',
@@ -35,9 +37,12 @@ export class QuerySalesDto implements Query<SaleFilters> {
   readonly saleOrderId?: string;
 
   @ApiPropertyOptional({
-    type: String,
+    type: RangeQueryNumberDto,
     description: 'amount',
-    format: 'range',
+    example: {
+      from: 0,
+      to: 20,
+    },
   })
   @IsOptional()
   @ValidateNested()
@@ -45,9 +50,12 @@ export class QuerySalesDto implements Query<SaleFilters> {
   readonly amount?: RangeQueryNumberDto;
 
   @ApiPropertyOptional({
-    type: String,
+    type: RangeQueryNumberDto,
     description: 'total',
-    format: 'range',
+    example: {
+      from: 0,
+      to: 20,
+    },
   })
   @IsOptional()
   @ValidateNested()
@@ -56,66 +64,8 @@ export class QuerySalesDto implements Query<SaleFilters> {
 
   @ApiPropertyOptional({
     type: String,
-    description: 'createdBy',
-    format: 'uuid',
-  })
-  @IsOptional()
-  @IsString()
-  readonly createdBy?: string;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'updatedBy',
-    format: 'uuid',
-  })
-  @IsOptional()
-  @IsString()
-  readonly updatedBy?: string;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'createdAt',
-    format: 'range',
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RangeQueryDateDto)
-  readonly createdAt?: RangeQueryDateDto;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'updatedAt',
-    format: 'range',
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RangeQueryDateDto)
-  readonly updatedAt?: RangeQueryDateDto;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'offset',
-    example: 0,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  readonly offset?: number;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'limit',
-    example: 20,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  readonly limit?: number;
-
-  @ApiPropertyOptional({
-    type: String,
     description: 'orderBy',
-    example: 'orderBy',
+    example: 'createdAt',
   })
   @IsOptional()
   @IsIn([
@@ -131,13 +81,4 @@ export class QuerySalesDto implements Query<SaleFilters> {
   ])
   @IsString()
   readonly orderBy?: keyof SaleFilters;
-
-  @ApiPropertyOptional({
-    type: String,
-    description: 'sort',
-    examples: ['asc', 'desc'],
-  })
-  @IsOptional()
-  @IsIn(['asc', 'desc'])
-  readonly sort?: 'asc' | 'desc';
 }

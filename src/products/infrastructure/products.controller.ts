@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Put,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from '../application/products.service';
 import { CreateProductDto } from '../domain/dto/input/create-product.dto';
@@ -23,9 +24,11 @@ import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QueryProductsDto } from '../domain/dto/input/query-products.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('products')
 @Controller('products')
+@UseInterceptors(LoggingInterceptor)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -77,7 +80,7 @@ export class ProductsController {
   @CommonDoc()
   @ApiNoContentResponse({ description: 'No Content' })
   @HttpCode(204)
-  public remove(
+  remove(
     @Param('id', ParseUUIDPipe) id: string,
     @Request() req: { user: Employee },
   ) {

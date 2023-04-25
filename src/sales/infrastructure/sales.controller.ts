@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Put,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SalesService } from '../application/sales.service';
 import { CreateSaleDto } from '../domain/dto/input/create-sale.dto';
@@ -23,14 +24,16 @@ import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QuerySalesDto } from '../domain/dto/input/query-sale.dto';
+import { LoggingInterceptor } from 'src/logs/infrastructure/interceptors/log.interceptor';
 
 @ApiTags('sales')
 @Controller('sales')
+@UseInterceptors(LoggingInterceptor)
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
   @Post()
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiCreatedResponse({ description: 'Created' })
   create(
@@ -41,7 +44,7 @@ export class SalesController {
   }
 
   @Get()
-  @Auth('admin')
+  @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
   findAll(@Body() queryDto: QuerySalesDto) {
