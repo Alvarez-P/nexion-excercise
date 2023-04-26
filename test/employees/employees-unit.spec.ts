@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import { ConfigService } from '@nestjs/config';
 import { GroupedCountResultItem } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
