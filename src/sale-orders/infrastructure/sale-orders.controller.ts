@@ -21,7 +21,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
+import { Auth } from 'src/auth/infrastructure/decorators/auth.decorator';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import { Employee } from 'src/employees/domain/employee.entity';
 import { QuerySaleOrdersDto } from '../domain/dto/input/query-sale-order.dto';

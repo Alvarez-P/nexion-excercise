@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { EmployeeRole } from 'src/core/constants';
 
@@ -8,8 +13,10 @@ export class RolesGuard implements CanActivate {
 
   canActivate(ctx: ExecutionContext): boolean {
     const roles = this.reflector.get<EmployeeRole[]>('roles', ctx.getHandler());
-    if (!roles) return true;
     const request = ctx.switchToHttp().getRequest();
+    if (request.user.token_type !== 'access_token')
+      throw new UnauthorizedException('Must be sent access token');
+    if (!roles) return true;
     return roles.includes(request.user.role);
   }
 }

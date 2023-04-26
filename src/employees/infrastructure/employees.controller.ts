@@ -17,7 +17,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
+import { Auth } from 'src/auth/infrastructure/decorators/auth.decorator';
 import { Employee } from '../domain/employee.entity';
 import { CreateEmployeeDto } from '../domain/dto/input/create-employee.dto';
 import { EmployeesService } from '../application/employees.service';

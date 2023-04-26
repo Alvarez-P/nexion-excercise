@@ -65,6 +65,7 @@ describe('EmployeeModule /employees', () => {
       sub: admin.id,
       userName: admin.userName,
       role: admin.role,
+      token_type: 'access_token',
     };
     token = generateToken(tokenPayload);
     app = moduleFixture.createNestApplication();

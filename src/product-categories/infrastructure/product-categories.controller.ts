@@ -14,7 +14,7 @@ import {
 import { ProductCategoriesService } from '../application/product-categories.service';
 import { CreateProductCategoryDto } from '../domain/dto/input/create-product-category.dto';
 import { UpdateProductCategoryDto } from '../domain/dto/input/update-product-category.dto';
-import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
+import { Auth } from 'src/auth/infrastructure/decorators/auth.decorator';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import {
   ApiCreatedResponse,

@@ -14,7 +14,7 @@ import {
 import { BranchOfficesService } from '../application/branch-offices.service';
 import { CreateBranchOfficeDto } from '../domain/dto/input/create-branch-office.dto';
 import { UpdateBranchOfficeDto } from '../domain/dto/input/update-branch-office.dto';
-import { Auth } from 'src/auth/infrastructure/guards/auth.guard';
+import { Auth } from 'src/auth/infrastructure/decorators/auth.decorator';
 import { CommonDoc } from 'src/core/infrastructure/decorators/documentation.decorator';
 import {
   ApiCreatedResponse,
