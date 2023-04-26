@@ -51,10 +51,11 @@ export class BranchOfficesController {
     return this.branchOfficesService.create(branchOfficeDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QueryBranchOfficeDto) {
     return this.branchOfficesService.findAll(queryDto);
   }
@@ -67,10 +68,11 @@ export class BranchOfficesController {
     return this.branchOfficesService.findOne(id);
   }
 
-  @Get(':id/sale-orders')
+  @Post(':id/sale-orders/searcher')
   @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findSaleOrders(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() queryDto: QueryBranchSaleOrdersDto,
@@ -78,10 +80,11 @@ export class BranchOfficesController {
     return this.ordersService.findAll({ ...queryDto, branchOfficeId: id });
   }
 
-  @Get(':id/stock')
+  @Post(':id/stock/searcher')
   @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findStock(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() queryDto: QueryBranchStockDto,

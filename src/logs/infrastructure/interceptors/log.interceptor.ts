@@ -41,7 +41,8 @@ export class LoggingInterceptor implements NestInterceptor {
           .elapsedTime(Date.now() - start)
           .build();
         await this.logRepository.create(log);
-        console.log(`[Request] ${req.method} ${req.url} - ${statusCode}`);
+        if (process.env.NODE_ENV !== 'test')
+          console.log(`[Request] ${req.method} ${req.url} - ${statusCode}`);
         return data;
       }),
     );

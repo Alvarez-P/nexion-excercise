@@ -8,6 +8,7 @@ import {
   HttpCode,
   Request,
   UseInterceptors,
+  Post,
 } from '@nestjs/common';
 import { LogsService } from '../application/logs.service';
 import { QueryLogsDto } from '../domain/dto/input/query-logs.dto';
@@ -23,10 +24,11 @@ import { LoggingInterceptor } from './interceptors/log.interceptor';
 export class LogsController {
   constructor(private readonly logsService: LogsService) {}
 
-  @Get()
+  @Post('searcher')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QueryLogsDto) {
     return this.logsService.findAll(queryDto);
   }

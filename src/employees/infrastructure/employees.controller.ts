@@ -43,10 +43,11 @@ export class EmployeesController {
     return this.employeeService.create(userDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   public findAll(@Body() queryDto: QueryEmployeesDto) {
     return this.employeeService.findAll(queryDto);
   }

@@ -44,10 +44,11 @@ export class SaleOrdersController {
     return this.ordersService.create(createOrderDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QuerySaleOrdersDto) {
     return this.ordersService.findAll(queryDto);
   }

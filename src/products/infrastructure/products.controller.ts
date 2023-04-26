@@ -43,10 +43,11 @@ export class ProductsController {
     return this.productsService.create(createProductDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(
     @Body() queryDto: QueryProductsDto,
     @Request() req: { user: Employee },

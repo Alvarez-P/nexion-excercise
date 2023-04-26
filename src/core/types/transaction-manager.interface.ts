@@ -1,3 +1,4 @@
+export type TransactionCallback = (...args: any[]) => any;
 export interface TransactionManager {
-  transaction: (fn: (...args: any[]) => any) => Promise<any>;
+  transaction: (fn: TransactionCallback) => Promise<any>;
 }

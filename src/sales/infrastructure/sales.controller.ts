@@ -43,10 +43,11 @@ export class SalesController {
     return this.salesService.create(createSaleDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin', 'user')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QuerySalesDto) {
     return this.salesService.findAll(queryDto);
   }

@@ -43,10 +43,11 @@ export class StockController {
     return this.stockService.create(createStockDto, req.user.id);
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QueryStockDto) {
     return this.stockService.findAll(queryDto);
   }

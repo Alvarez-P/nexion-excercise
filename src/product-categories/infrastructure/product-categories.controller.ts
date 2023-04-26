@@ -46,10 +46,11 @@ export class ProductCategoriesController {
     );
   }
 
-  @Get()
+  @Post('searcher')
   @Auth('admin')
   @CommonDoc()
   @ApiOkResponse({ description: 'Success' })
+  @HttpCode(200)
   findAll(@Body() queryDto: QueryProductCategoriesDto) {
     return this.pCategoriesService.findAll(queryDto);
   }
